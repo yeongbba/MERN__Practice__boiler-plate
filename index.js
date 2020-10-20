@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
+
+const config = require("./config/key");
+
 const { User } = require("./models/User");
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -10,15 +13,12 @@ app.use(bodyParser.json());
 //mongoDB, mongoose 연결
 const mongoose = require("mongoose");
 mongoose
-  .connect(
-    "mongodb+srv://yeongbba:tkfkdgo12!@boiler-plate.qe8np.mongodb.net/<dbname>?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    }
-  )
+  .connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
